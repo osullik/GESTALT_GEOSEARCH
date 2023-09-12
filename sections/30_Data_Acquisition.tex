@@ -101,9 +101,9 @@ For our experiments we enable safe-search and limit to public photos. For the Sw
     \begin{center}
         \begin{tabular}{ |c|c|c|c|c|c| } 
             \hline
-            Dataset & Type & Source & Labels & \# Tags \\%& \# Unique \\
+            Region & Type & Source & Label Method & \# Tags \\%& \# Unique \\
             \hline
-            \multirow{5}{6em}{Swan Valley Wineries\tablefootnote{BoundingBox:['115.96168231510637', '-31.90009882641578', '116.05029961853784', '-31.77307863942101']}} 
+            \multirow{5}{6em}{Swan Valley\tablefootnote{BoundingBox:['115.96168231510637', '-31.90009882641578', '116.05029961853784', '-31.77307863942101']}} 
             & Objects & KML file & Hand Labeled & $146$ \\%&$41$\\ 
             & Objects & OSM B-Box & Crowd-Sourced & $2466$\\%\tablefootnote{$3056$ objects originally returned, $590$ dropped for not being objects} \\%& $38$ \\
             & Objects & Flickr B-Box & Object detection & $1893$\\%\tablefootnote{from $462$ photos} \\%& $55$  \\ 
@@ -116,7 +116,7 @@ For our experiments we enable safe-search and limit to public photos. For the Sw
             & Locations & OSM B-Box & Crowd-Sourced & $12179$ \\%& $12179$\\
             \hline
         \end{tabular}
-        \caption{Summary of location and object datasets in \emph{GESTALT}.} %The Swan Valley Wineries dataset supports testing and verification with hand-curated data, and the much larger DC Dataset tests the scalability of \textit{GESTALT}} 
+        \caption{Summary of location and object datasets in \emph{GESTALT}. Rows corresponding to the Swan Valley region and having Hand Labels are part of the gold standard Swan Valley Wineries dataset we contribute.} %The Swan Valley Wineries dataset supports testing and verification with hand-curated data, and the much larger DC Dataset tests the scalability of \textit{GESTALT}} 
         \label{table:DataSet}
     \end{center}
 \end{table}

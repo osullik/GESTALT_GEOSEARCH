@@ -51,7 +51,7 @@ By increasing the parameter value, we can allow for objects to be assigned to mu
             \For{All $C$ in $Clusters$ except NULL cluster}
                 \State{$C.x\leftarrow$ Calculate Cluster Centroid}%\Comment{$C.x$ cluster centroid}
                 \For{$O$ in $C$}
-                    \State{$O.c\leftarrow$ $1-normalize(dist(O,C.x)$}%\frac{1}{dist(O, C.x)}$}%\Comment{\textbf{O}bj \textbf{C}onf, $O.x$ obj coords}
+                    \State{$O.c\leftarrow 1-normalize(dist(O,C.x))$}%\frac{1}{dist(O, C.x)}$}%\Comment{\textbf{O}bj \textbf{C}onf, $O.x$ obj coords}
                 \EndFor
             \EndFor
             \For{All $O$ in NULL Cluster}
