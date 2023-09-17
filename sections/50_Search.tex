@@ -5,7 +5,11 @@ The core function of \textit{GESTALT} is to perform last-mile search given parti
 The user is assumed to know the general region of interest and some information about the objects at the location they seek.
 Under these conditions, the search problem can be framed in several ways, which we describe below in increasing order of complexity and utility.
 
-\subsection{Membership Search}
+\subsection{Search Dataset}
+We hand labeled the ground truth responses for 24 spatial queries on object configurations for objects belonging to the 6 wineries in the Swan Valley Wineries dataset. 
+\nrscomment{more details on how the data was made, what it contains, etc.}
+
+\subsection{Search Method}
 
 \subsubsection{\textbf{Exact membership search}}
 The simplest search function in \emph{GESTALT} (Algorithm \ref{alg:search}) takes a set of query terms representing objects the user knows are at a location, and performs the appropriate look-ups and set intersections to determine which locations are a match for containing \textit{all} those objects.
@@ -13,15 +17,15 @@ The simplest search function in \emph{GESTALT} (Algorithm \ref{alg:search}) take
 \begin{algorithm}
     \caption{Membership Search}\label{alg:search}
     \begin{algorithmic}
-        \State{\textit{\textbf{QT} a list of query terms to search for}}
+        \State{\textit{\textbf{Q} a list of query terms to search for}}
         \State{\textit{\textbf{II} an inverted index with objects as keys and locations as values}}
         \State{- - - - -}
-        \Procedure{Search}{$QT$,$II$}
-            \State{$Locs$ $\leftarrow$ []}
-            \For{Each $q$ in $QT$}
-                \State{Retrieve set of Locations $II$[$q$] and add to $Locs$}
+        \Procedure{Search}{$Q$, $II$}
+            \State{$SearchResult$ $\leftarrow$ []}
+            \For{Each $P$ in $Q$}
+                \State{Retrieve set of Locations $II$[$P$] and add to $SearchResult$}
             \EndFor
-            \State{\textbf{return} intersection of sets of Locations in $Locs$}
+            \State{\textbf{return} intersection of sets of Locations in $SearchResult$}
             \EndProcedure
     \end{algorithmic}
 \end{algorithm}
@@ -33,20 +37,22 @@ When the exact membership search returns a large number of hits, such as for a b
 \begin{algorithm}[H]
     \caption{Ranked Membership Search}\label{alg:rank}
     \begin{algorithmic}
-        \State{\textit{\textbf{QT} a list of query terms to search for}}
+        \State{\textit{\textbf{Q} a list of query terms to search for}}
         \State{\textit{\textbf{II} an inverted index with objects as keys and locations as values}}
+        \State{\textit{\textbf{SearchResult}} Set of candidate locations returned from \textbf{SEARCH()}}
         \State{- - - - -}
-        \Procedure{Rank}{$S$,$QT$,$II$}\Comment{$S$ results from $Q$ query terms in $II$}
-            \State{$LR$ $\leftarrow$ Empty Ordered Dictionary}\Comment{\textbf{L}ocation \textbf{R}ank}
-            \For{Each $L$ in $S$}\Comment{\textbf{L}ocation}
-                \State{$p$ $\leftarrow$ 1}%\Comment{Probability location correct}
-                \For{$O$ in $QT$}
+        \Procedure{Rank}{$SearchResult$, $Q$, $II$}%\Comment{$S$ results from $Q$ query terms in $II$}
+            \State{$RankedSearchResult$ $\leftarrow$ Empty Ordered Dictionary}%\Comment{\textbf{L}ocation \textbf{R}ank}
+            \For{Each location $Loc$ in $SearchResult$}%\Comment{\textbf{L}ocation}
+                \State{$prob$ $\leftarrow$ 1}%\Comment{Probability location correct}
+                \For{Each query point $P$ in $Q$}
                     %\State{$OP$ = Prob of Obj@Locin $II$}\Comment{$OP$ = \textbf{O}bject \textbf{P}robability}
-                    \State{$p$ $\leftarrow$ $p$x$OP$}\Comment{$OP$ = \textbf{O}bject \textbf{P}robability}
+                    \State{$prob$ $\leftarrow$ $prob$ $\times$ $P.prob$}%\Comment{$P.prob$ = object probability}
                 \EndFor
-                \State{$LR$[$L$] $\leftarrow$ $p$}
+                \State{$RankedSearchResult$[$Loc$] $\leftarrow$ $prob$}
             \EndFor
-            \State{\textbf{return} $LR$ ordered most to least likely}
+            \State{$RankedSearchResult \leftarrow$ Sort $RankedSearchResult$ by values}
+            \State{\textbf{return} $RankedSearchResult$}
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
@@ -59,26 +65,104 @@ The most discriminative terms are emphasized since rare objects are memorable an
 \begin{algorithm}
     \caption{Fuzzy Membership Search}\label{alg:fuzzySearch}
     \begin{algorithmic}[2]
-        \State{\textit{\textbf{QT} a list of query terms to search for}}
+        \State{\textit{\textbf{Q} a list of query terms to search for}}
         \State{\textit{\textbf{II} an inverted index with objects as keys and locations as values}}
         \State{- - - - -}
-        \Procedure{fuzzySearch}{$QT$,$II$}
-            \State{$S$ $\leftarrow$ \textbf{II.SEARCH}($QT$)}
-            \If{$S$ is Empty}
-                \State{$q$ $\leftarrow$ Pop most discriminative term from $QT$}
-                \State{$S$ $\leftarrow$ \textbf{$II$.SEARCH}($QT$)}
-                \If{$S$ is not Empty}
+        \Procedure{fuzzySearch}{$Q$,$II$}
+            \State{$SearchResult$ $\leftarrow$ \textbf{II.SEARCH}($Q$)}
+            \If{$SearchResult$ is Empty}
+                \State{$P$ $\leftarrow$ Pop most discriminative term from $Q$}
+                \State{$SearchResult$ $\leftarrow$ \textbf{$II$.SEARCH}($Q$)}
+                \If{$SearchResult$ is not Empty}
                     \State{Skip to Line 6}
                 \Else
-                    \State{$S$ $\leftarrow$ \textbf{II.SEARCH}($QT$.remove($q$)}
+                    \State{$SearchResult$ $\leftarrow$ \textbf{II.SEARCH}($Q$.remove($P$)}
                 \EndIf
             \EndIf
-            \If{$S$ has more than 1 item}
-                \State{\textbf{return} \textbf{$II$.RANK($S$,$Q$)}}
+            \If{$SearchResult$ has more than 1 item}
+                \State{\textbf{return} \textbf{$II$.RANK($SearchResult$, $Q$)}}
             \EndIf
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
+
+\subsubsection{\textbf{Spatial Search}}
+\nrscomment{high level overview and cite COMPASS}
+
+
+
+
+
+\subsection{Search Results}
+
+\small{
+\begin{table}[h!]
+    \begin{center}
+        \begin{tabular}{ |c|c|c|c| } 
+            \hline
+            Query Method & Metric & Results \\
+            \hline
+            \multirow{2}{7em}{Loc-Obj} & Mean Precision & $0.854$ \\
+            & Mean Recall & $0.917$\\%& 
+            \hline     
+            \multirow{2}{7em}{Obj-Obj} & Mean Precision & $0.721$ \\ 
+            &Mean Recall & $0.875$ \\
+            \hline
+        \end{tabular}
+        \caption{Spatial results across 24 ground-truth pictorial queries run on the \textit{combined swan valley wineries} dataset.} %Clustering used DBSCAN with $\epsilon = \frac{0.05}{6371}$ and MinCluster=$3$.} 
+        \label{Table:GroundTruth}
+    \end{center}
+\end{table}
+}
+
+To determine the overall recall of \emph{GESTALT}'s spatial search process in a noisy environment, we test the hand-labeled queries on the \textit{Combined} dataset.
+The results (Table \ref{Table:GroundTruth}) show that \emph{GESTALT} has a high recall on both methods of query specification, object-location and object-object.
+We expect precision to be low on these query results when compared to the ground-truth, since the \textit{Combined} dataset includes many additional locations that were not considered during the hand-labeling.
+However, the precision we recorded is reasonable, which points to the discriminative power of spatial configurations of objects as a search constraint.
+
+%ran 12 queries on each pictorial querying method and record the results in table \ref{Table:GroundTruth}. 
+%The recall of the Loc-Obj queries tends to increase with the number of query terms, as they are additive. 
+%The precision of the obj-obj queries is negatively impacted by single term queries, which returns any location with that object present.
+
+\subsection{Search Complexity}
+
+\small{
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[t]{.45\textwidth}
+        \includesvg[width=\textwidth]{queryExecutionRecall.svg}
+        
+        %\caption{Additional terms improve precision of results for all techniques except Loc-Obj Pictorial Querying, for which each search term adds to possible matches, rather than pruning impossible matches. Users seeking to prune their search space should seek to input 3 objects to \emph{GESTALT}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{.45\textwidth} 
+        \includesvg[width=\textwidth]{queryExecutionTime.svg}
+        %\caption{Query time remains constant for Pictorial Obj-Obj querying after a second item because it only requires a single matrix traversal per location to match the query pattern to that candidate location. The set intersections in our Index Searches are order-optimized to execute the most discriminitive sets first in queries.}    
+    \end{subfigure}
+
+    \caption{Number of candidate locations and query response times for queries on the Washington D.C. Dataset (12,179 Locations, 91,188 objects).}\label{figure:PerformanceExperiments}\label{fig:queryExecutionRecall}        \label{fig:queryExecutionTime}
+    %A suite of queries run across the DC Dataset (12179 Locations, 148 Distinct classes among 91188 objects) clustered using DBSCAN with $\epsilon=0.00000156961$ (roughly 50m),MinCluster=$3$ and out Fuzzy Threshold$=0.0$. We use the 10 most common object classes: (eg crossing, traffic signals, street lamp, bus stop) to simulate worst case conditions where the user recalls almost no distinguishing features of their target location} 
+\end{figure}
+}
+
+\subsubsection{Theoretical Complexity}
+\nrscomment{cite algo analysis in COMPASS}
+
+\nrscomment{do some analysis on membership searches?}
+
+
+\subsubsection{Empirical Complexity}
+
+Figure \ref{fig:queryExecutionTime} shows the query response times on the Washington D.C. dataset (with over 91,000 objects and 12,000 locations) as the number of query terms increases. 
+The queries tested were constructed using the 10 most common object classes: (e.g. crossing, traffic signals, street lamp, bus stop) to simulate worst case conditions where the user recalls no highly distinctive features of their target location.
+For the three membership searches (exact, ranked, and fuzzy), the response times decrease as the number of objects specified in the query increases (i.e. as the pool of possible locations meeting the query specification narrows), following the trend in Figure \ref{fig:queryExecutionRecall} which shows the aggressive pruning that takes place as the queries become more specific.
+Critically, this same effect is achieved for the object-object spatial search, where the recursive pruning of the search space quickly eliminates any candidates that are not viable matches to the pictorial query specification.
+The location-object search does not show this effect because it counts the number of objects matching the query configuration and uses that to rank candidates, so no early stopping is done when the right object is found to the wrong cardinal direction of the location. %which iterates through the quadrants of each location and counts the number of objects matching the directional specification from the query,
+%it does not stop early when a candidate does not match on an object, instead returning the count of matches to be used to rank all of the candidates.
+
+
+
+
 
 %Fuzzy search begins with the most discriminative query term (based on counts maintained by the inverted index) and proceeds by adding query terms successively until the set intersection returns no locations matching all the criteria, at which point it walks back by one term and returns the prvious set of locations, which is the closest match.
 

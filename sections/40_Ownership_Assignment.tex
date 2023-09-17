@@ -2,7 +2,6 @@
 \label{section:ownership}
 
 We formulate the last-mile search problem in terms of \textit{locations}, which are searchable entities that 'own' or contain any number of \textit{objects}. %(i.e., a location that contains <object1, object2, etc.>, or a location that contains <object1 Northeast of object2>). 
-
 To support user queries, \emph{GESTALT} must associate objects with their parent locations.
 We call this problem \textit{Object Ownership Assignment} and define it as follows.
 Given a collection of locations and objects within a region, \emph{Ownership Assignment} seeks to assign each object to its 'parent' location correctly. 
@@ -14,14 +13,15 @@ For example, a winery may have a shed out back that is visible both from that wi
 In this case, the object can be helpful when searching for either location. 
 We address this aspect of the problem by modifying our method to allow for fuzzy object-location assignment, effectively increasing the recall of the method. 
 
-\subsection{Datasets and Metrics}
+\subsection{Object Ownership Assignment Dataset}
 
 We evaluate the Ownership Assignment task on two datasets: the hand-labeled Swan Valley Wineries dataset alone and a \textit{Combined} dataset that includes all of the object and location tags from the Swan Valley Wineries dataset in addition to the noisy object tags from the Flickr dataset and the crowd-sourced object tags from the OSM dataset.
-Since we have ground truth labels for the winery locations and their objects in the Swan Valley dataset, we report both precision and recall on this dataset.
+Since we have ground truth labels for the winery locations and their objects in the Swan Valley Wineries dataset, we report both precision and recall on this dataset.
 The Combined dataset presents a more realistic and challenging scenario for Ownership Assignment than the Swan Valley Wineries dataset alone, given its more extensive set of locations and a large set of object tags to assign to those locations. However, since the Combined dataset includes noisy tags for which we have no ground truth labels, we do not report precision on the Combined dataset. Instead, we measure only the recall on the same Winery locations and their known objects that were hand-labeled as part of the Swan Valley dataset. The Combined dataset tests how well the recall performance of our Ownership Assignment method holds up to additional noise and more densely packed objects and locations.
-The Swan Valley Wineries dataset consists of 31 wineries and five breweries retrieved from OSM and 146 objects hand-labeled across five of those 31 locations with ground-truth labels. Table \ref{table:clustering} contains the recall (and precision, where applicable) on those locations and objects.
+%The Swan Valley Wineries dataset consists of 31 wineries and five breweries retrieved from OSM and 146 objects hand-labeled across five of those 31 locations with ground-truth labels. 
+Table \ref{table:clustering} contains the recall (and precision, where applicable) on those locations and objects.
 
-\subsection{Method}
+\subsection{Object Ownership Assignment Method}
 
 Our method for Object Ownership Assignment is outlined in Algorithm \ref{alg:OwnershipAssignment}. 
 After clustering the objects, we determine the centroids of the relevant object clusters, calculate the confidence scores in the object-cluster assignments, and then map the cluster centroids to their nearest known location tags. 
@@ -38,27 +38,27 @@ By increasing the parameter value, we can allow for objects to be assigned to mu
     \begin{algorithmic}
         \State{\textit{\textbf{Locs}} a list of locations and their tagged coordinates}
         \State{\textit{\textbf{Objs}} a list of objects and their coordinates}
-        \State{\textit{\textbf{Clusters}} a list of object clusters}
+      %  \State{\textit{\textbf{Clusters}} a list of object clusters}
         %\State{\textit{\textbf{C}} an individual cluster in $Clusters$}
         %\State{\textit{\textbf{C.x}} a cluster centroid}
-        \State{\textit{\textbf{C.l}} the predicted $location$ for a $cluster$}
+       % \State{\textit{\textbf{C.l}} the predicted $location$ for a $cluster$}
         %\State{\textit{\textbf{O}} an individual object in $Objects$}
-        \State{\textit{\textbf{O.c}} confidence score that object was correctly assigned}
+      %  \State{\textit{\textbf{O.c}} confidence score that object was correctly assigned}
         %\State{\textit{\textbf{O.x}} an object's coordinates}
         \State{- - - - - - - - - -}
-        \Procedure{ObjectOwnershipAssignment}{$Locs$,$Objs$}
+        \Procedure{ObjectOwnershipAssignment}{$Locs$, $Objs$}
             \State{$Clusters\leftarrow$ \textbf{DBSCAN}($Objs$)}%\Comment{\textbf{C}luster}
-            \For{All $C$ in $Clusters$ except NULL cluster}
-                \State{$C.x\leftarrow$ Calculate Cluster Centroid}%\Comment{$C.x$ cluster centroid}
-                \For{$O$ in $C$}
-                    \State{$O.c\leftarrow 1-normalize(dist(O,C.x))$}%\frac{1}{dist(O, C.x)}$}%\Comment{\textbf{O}bj \textbf{C}onf, $O.x$ obj coords}
+            \For{Each $Cluster$ in $Clusters$ except NULL cluster}
+                \State{$C \leftarrow$ Calculate centroid of $Cluster$}%\Comment{$C.x$ cluster centroid}
+                \For{$Obj$ in $Cluster$}
+                    \State{$Obj.prob\leftarrow 1-normalize(dist(Obj, C))$}%\frac{1}{dist(O, C.x)}$}%\Comment{\textbf{O}bj \textbf{C}onf, $O.x$ obj coords}
                 \EndFor
             \EndFor
-            \For{All $O$ in NULL Cluster}
-                \State{$O.c\leftarrow$ 0.5}
+            \For{Each $Obj$ in NULL Cluster}
+                \State{$Obj.prob\leftarrow$ 0.5}
             \EndFor
-            \For{All $C$ in $Clusters$ Except NULL Cluster}
-                \State{$C.l\leftarrow$ Closest $L$ in $Locs$ to $C.x$}%\Comment{\textbf{C}luster \textbf{L}oc, $L.x$ Loc coords}
+            \For{Each $Cluster$ in $Clusters$ Except NULL Cluster}
+                \State{$Cluster.Loc\leftarrow$ Closest location to $C$ in $Locs$ }%\Comment{\textbf{C}luster \textbf{L}oc, $L.x$ Loc coords}
             \EndFor 
         \EndProcedure
     \end{algorithmic}
@@ -100,8 +100,8 @@ We run all Swan Valley Wineries experiments with DBSCAN parameter $\epsilon = \f
 \normalsize
 
 
-\subsection{Results}
-We show the Object-to-location assignment results for the Swan Valley Wineries and the \textit{Combined} datasets in Figure \ref{table:clustering}. 
+\subsection{Object Ownership Assignment Results}
+We show the Object-to-location assignment results for the Swan Valley Wineries and the \textit{Combined} datasets in Table \ref{table:clustering}. 
 Increasing the fuzziness parameter $c$ increases the chance that objects are assigned to multiple clusters, which improves recall on the noisier \textit{Combined} dataset.
 As expected, increasing the likelihood that objects are assigned to multiple clusters in the less noisy Swan Valley Wineries dataset reduces the precision but, interestingly, does not show the benefit in recall that it did for the noisier \textit{Combined} dataset.
 
