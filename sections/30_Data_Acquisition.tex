@@ -27,7 +27,7 @@ To maximize dataset coverage and demonstrate the flexibility of \emph{GESTALT}, 
 \end{enumerate}
 
 Upon ingest, each object is assigned a confidence score, reflecting the certainty that the object tagged at those coordinates exists and is of the type annotated. 
-For results reported in this paper, we adopt the rule that hand-labeled objects receive a confidence score of $1.0$, OSM objects receive a score of $0.75$, and objects labeled by the object detector receive the confidence score reported by the object detection model. Table~\ref{table:DataSet} contains a summary of the objects currently in \emph{GESTALT}.
+For results reported in this paper, we adopt the rule that hand-labeled objects receive a confidence score of $1.0$, for demonstration purposes OSM objects receive a score of $0.75$, and objects labeled by the object detector receive the confidence score reported by the object detection model. Table~\ref{table:DataSet} contains a summary of the objects currently in \emph{GESTALT}.
 
 \subsection{Location Tags}
 We support two methods of ingesting locations:
@@ -51,7 +51,7 @@ Similar to the approach with object tags, we assign a confidence to each locatio
 \subsection{Ingest Methods}
 \subsubsection{Ground Truth Hand Labeled Tags} 
 Hand-labeled objects and locations have been manually annotated by a trustworthy source and are assumed to be correctly labeled and geotagged. 
-\emph{GESTALT} accepts hand-labeled tags to allow for prior manual annotation work to be folded into the pipeline and to provide a reliable means to report results on ground truth data so that we can compare \emph{GESTALT} with future architectures that might attempt to solve the last-mile search problem with a different approach. 
+%\emph{GESTALT} accepts hand-labeled tags to allow for prior manual annotation work to be folded into the pipeline and to provide a reliable means to report results on ground truth data so that we can compare \emph{GESTALT} with future architectures that might attempt to solve the last-mile search problem with a different approach. 
 For benchmarking purposes, we curated the \emph{Swan Valley Wineries} dataset containing 31 ground truth location tags for wineries (and five for breweries) in the Swan Valley Region of Western Australia and 146 ground truth object tags associated with six of those wineries. 
 
 The wineries dataset tags are stored in Keyhole Markup Language~\footnote{\href{https://developers.google.com/kml/documentation/kml\_tut}{https://developers.google.com/kml/documentation/kml\_tut}} (KML).
@@ -61,7 +61,7 @@ The object tagging was conducted manually by a single annotator using \textit{Go
 The data sources include on-the-ground knowledge, manual inspection of satellite imagery, street-view imagery, and publicly available area photos. 
 The objects tagged are representative, not exhaustive. 
 Attributes of the objects (e.g., color, size, material) are recorded in the comments field as key:value pairs.
-Each object from the hand-labeled dataset is assigned a confidence score of 1.0 since it was manually identified and tagged.
+%Each object from the hand-labeled dataset is assigned a confidence score of 1.0 since it was manually identified and tagged.
 The object tags are aligned with their corresponding winery location in the dataset.
 %Figure \ref{fig:loc} shows the winery locations in the Swan Valley Wineries dataset, and Figure \ref{fig:loc-obj} shows each of the six wineries that was hand labeled with ground-truth object tags, along with those tags and their spatial locations with respect to the winery location.
 
@@ -86,7 +86,7 @@ To ingest objects, \emph{GESTALT} pulls all nodes within a given bounding box th
 %The remaining nodes are transformed into a standard JSON format and stored for indexing and search later in the \emph{GESTALT} pipeline. 
 %Businesses, attractions, and other higher-level \textit{locations} are commonly annotated as nodes in OSM by the open-source community or business owners. 
 To ingest locations, \emph{GESTALT} uses a similar process to objects, but this time excluding results that lack features like names, street addresses, and phone numbers. 
-We assign each location or object tag ingested from OSM a confidence score of 0.75 because while any user can edit tags in the OSM database without review, the open-source community does have some degree of self-regulation~\cite{VargasMunoz2020}, and prior work has examined the application of machine learning for detecting anomalous behavior in OSM edits~\cite{Mooney2017}.
+We assign each location or object tag ingested from OSM a confidence score of 0.75 because while any user can edit tags in the OSM database without review, the open-source community self-regulates~\cite{VargasMunoz2020}, and prior work has examined the application of machine learning for detecting anomalous behavior in OSM edits~\cite{Mooney2017}.
 %While OSM provides a rich, free, and accessible data source to leverage the power of the crowds to generate tags for \emph{GESTALT}, the completeness of OSM is generally unassured, so scaling \textit{GESTALT} beyond the trivial requires an automated method for object detection and resolution. 
 
 \subsubsection{Noisy Image-based Tags}
@@ -110,13 +110,14 @@ For our experiments we enable safe-search and limit to public photos. For the Sw
             & Locations & KML file & Hand Labeled & $31$ \\%&$41$\\
             & Locations & OSM B-Box& Crowd-Sourced & 308 \\%& 308\\
             \hline     
-            \multirow{5}{6em}{Washington D.C.\tablefootnote{BoundingBox:['-77.120248', '38.791086', '-76.911012', '38.995732']}} %& N/A & Hand Labeled & $0$ & $0$ \\ 
+            \multirow{3}{6em}{Washington D.C.\tablefootnote{BoundingBox:['-77.120248', '38.791086', '-76.911012', '38.995732']}} %& N/A & Hand Labeled & $0$ & $0$ \\ 
             & Objects & OSM B-Box & Crowd-Sourced &$60123$ \\%\tablefootnote{$113339$ objects originally returned, $53216$ dropped for not being objects} \\%& $175$ \\ 
             & Objects & Flickr B-Box & Object detection & $31065$ \\%\tablefootnote{from $4249$ photos. Most objects in a photo was $61$, average was $7.3$} \\%& $80$  \\ 
             & Locations & OSM B-Box & Crowd-Sourced & $12179$ \\%& $12179$\\
             \hline
         \end{tabular}
         \caption{Summary of location and object datasets in \emph{GESTALT}. Rows corresponding to the Swan Valley region and having Hand Labels are part of the gold standard Swan Valley Wineries dataset we contribute.} %The Swan Valley Wineries dataset supports testing and verification with hand-curated data, and the much larger DC Dataset tests the scalability of \textit{GESTALT}} 
+        \vspace{-25pt}
         \label{table:DataSet}
     \end{center}
 \end{table}
@@ -129,26 +130,26 @@ For our experiments we enable safe-search and limit to public photos. For the Sw
 %OSM records objects' coordinates as a mixture of point coordinates and bounding polygons. 
 %OSM has a defined and curated ontology that defines the labeling scheme, maximizing interoperability. 
 %The OSM objects are crowd-sourced and of varying granularity and completeness. Incompleteness is part of the initial scope of OSM, with the founder noting that it's typically only what people want to add that gets added \cite{Haklay2008}.
-
+%
 %NSCH: is the below sentence about the labeling or the module that aggregates all the sources? Or no longer relevant?
 %The KML parser leverages the \textit{fastKML}\footnote{\href{https://pypi.org/project/fastkml/}{Fast KML PyPI Repo}} and ingests a KML file divided by region (where each region is a bounding box covering an arbitrary number of locations). 
-
-
+%
+%
 %we use the \emph{DC Dataset} we create from OSM and Flickr queries, containing 12,179 locations, 91,188 objects and over 200 distinct object classes across a bounding box sufficent to cover the entire district of columbia.
-
-
-
+%
+%
+%
 %An automated solution aims to leverage publicly available remote sensing imagery data (Bing Maps Satellite data, for example) and public streetview and photo contributions to automatically identify objects, geo-locate them and add those tags to a database. 
 %The design for this subsystem breaks maps into small geographically-bounded chunks (approximately the size of a 'location'). 
 %It will use remote-sensing imagery to create a grid of objects / not-object. It will retrieve ground-level imagery within and adjacent to that box.
-
-
+%
+%
 %The data extraction, cleaning and loading are implemented in Python in two parts, the \textit{KML parser} for object extraction and the \textit{Open Street Maps} query interface for location retrieval. 
 %The KML parser leverages the \textit{fastKML}\footnote{\href{https://pypi.org/project/fastkml/}{Fast KML PyPI Repo}} and ingests a KML file divided by region (where each region is a bounding box covering an arbitrary number of locations). 
 %Within each region (for this test dataset), each location is separated, with its objects stored as its children. 
 %Attributes of the objects (e.g. color, size, material) are recorded in the comments field as key:value pairs.
 %The KML Parser extracts the objects into dictionaries organized by location before exporting the files as JSON for future analysis. 
-
+%
 %Google Maps\footnote{\href{https://www.google.com/maps/about/}{Google Maps}} maintains \textit{locations} as coordinate points with associated metadata. The locations are generally current and complete. 
 %Google Maps does not support bounding polygons at the location level; it appears to extend to as granular as ZIP Codes or suburb boundaries and no further. 
 %OSM Supports locations, but is less complete than Google Maps (at least for Australian Wine Regions.)
