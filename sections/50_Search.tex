@@ -140,7 +140,8 @@ The most discriminative terms are emphasized since rare objects are memorable an
 \end{table}
 }
 
-\paragraph{Search Performance}
+\paragraph{Search Performance.}
+
 To evaluate \emph{GESTALT}'s search process from end to end in a noisy environment, we test it using the \textit{Swan Valley ground truth queries} and the \textit{Combined} dataset.
 The results (Table \ref{Table:GroundTruth}) show that \emph{GESTALT} has a high recall on both methods of query specification, object-location and object-object.
 We expect precision to be low on these query results when compared to the ground-truth, since the \textit{Combined} dataset includes many additional locations that were not considered during the hand-labeling.
@@ -150,7 +151,7 @@ However, the precision we recorded is reasonable, which points to the discrimina
 %The recall of the Loc-Obj queries tends to increase with the number of query terms, as they are additive. 
 %The precision of the obj-obj queries is negatively impacted by single term queries, which returns any location with that object present.
 
-\paragraph{Search Complexity}
+\paragraph{Search Complexity.}
 
 \small{
 \begin{figure*}[h]
@@ -178,7 +179,7 @@ However, the precision we recorded is reasonable, which points to the discrimina
 
 
 %\subsubsection{Empirical Complexity}
-A detailed theoretical analysis of search complexity for the three forms of spatial search is presented in \nrscomment{cite COMPASS}.
+A detailed theoretical analysis of search complexity for the three forms of spatial search is presented in \emph{COMPASS}~\cite{Osul2023}.
 To assess scalability of \emph{GESTALT} on real data, we measure query response times on the \textit{D.C worst-case queries} and the \textit{Washington D.C. dataset} (which contains over 91,000 objects and 12,000 locations).
 Figure \ref{fig:queryExecutionTime} shows these results as the number of query terms increases. 
 For the three membership searches (exact, ranked, and fuzzy), the response times decrease as the number of objects specified in the query increases (i.e. as the pool of possible locations meeting the query specification narrows), following the trend in Figure \ref{fig:queryExecutionRecall} which shows the aggressive pruning that takes place as the queries become more specific.
