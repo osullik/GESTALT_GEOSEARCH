@@ -14,7 +14,7 @@ The process is a data fusion and search task, where information from reports is 
 Recent related work from \textit{Bellingcat}~\footnote{\href{https://www.bellingcat.com/resources/how-tos/2023/05/08/finding-geolocation-leads-with-bellingcats-openstreetmap-search-tool/}{https://www.bellingcat.com/resources/how-tos/2023/05/08/finding-geolocation-leads-with-bellingcats-openstreetmap-search-tool/}} highlights the need for search techniques that can accommodate queries for collections of objects in close geographic proximity to each other.
 However, automating the last-mile search process requires addressing several additional criteria, including accounting for the spatial configuration of objects concerning each other, handling uncertainty in the information known about a location by relaxing the search constraints until a partial match is found, and accounting for the fuzzy boundaries between locations, whereby an object may be visible from several nearby locations and can be associated with all of them to maximize the recall of the search result.
 
-We present \emph{GESTALT}, an end-to-end spatial search pipeline inspired by the way humans recall and search for information~\cite{Helbing2020, Oliveira2016, Weisberg2016}.
+We present \emph{GESTALT}\footnote{\url{https://anonymous.4open.science/r/GESTALT_SIGSPATIAL-C009/}}, an end-to-end spatial search pipeline inspired by the way humans recall and search for information~\cite{Helbing2020, Oliveira2016, Weisberg2016}.
 \emph{GESTALT} extracts geospatial data, transforms it into coherent object and location relations, stores those relations, and enables querying over them. 
 Specifically, \emph{GESTALT} provides the following functionality:
 \begin{enumerate}
