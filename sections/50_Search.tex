@@ -14,12 +14,6 @@ To construct them, we hand labeled the ground truth responses for 24 spatial que
 The \textit{D.C worst case queries} are designed to test \emph{GESTALT}'s performance under the worst case search conditions where the user recalls no highly distinctive features of their target location.
 We construct these queries on the noisy Washington D.C. dataset, using the 10 most common object classes as query terms (e.g. crossing, traffic signals, street lamp, bus stop).
 
-
-\subsection{Search Method}
-
-\subsubsection{\textbf{Exact membership search}}
-The simplest search function in \emph{GESTALT} (Algorithm \ref{alg:search}) takes a set of query terms representing objects the user knows are at a location, and performs the appropriate look-ups and set intersections to determine which locations are a match (contain \textit{all} those objects).
-
 \begin{algorithm}
     \caption{Membership Search}\label{alg:search}
     \begin{algorithmic}
@@ -35,10 +29,6 @@ The simplest search function in \emph{GESTALT} (Algorithm \ref{alg:search}) take
             \EndProcedure
     \end{algorithmic}
 \end{algorithm}
-
-%A \textit{set membership problem} is the most straightforward and most efficient. Given a set of locations, each of which has a set of objects it 'owns' and a set of objects in the search term, which locations have complete coverage of the search set.
-\subsubsection{\textbf{Ranked membership search}}
-When the exact membership search returns a large number of hits, such as for a broad query (i.e. Which locations have a tree and a bench?) the ranking of those locations can help narrow the results. Using Algorithm \ref{alg:rank}, we aggregate the confidence scores from the object tagging and ownership assignment stages to determine the overall likelihood that a given location contains the object of interest. These scores are then aggregated per location for the relevant query objects, and the final scores determine the ranking of the results. 
 
 \begin{algorithm}[H]
     \caption{Ranked Membership Search}\label{alg:rank}
@@ -62,6 +52,19 @@ When the exact membership search returns a large number of hits, such as for a b
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
+
+\subsection{Search Method}
+
+\subsubsection{\textbf{Exact membership search}}
+The simplest search function in \emph{GESTALT} (Algorithm \ref{alg:search}) takes a set of query terms representing objects the user knows are at a location, and performs the appropriate look-ups and set intersections to determine which locations are a match (contain \textit{all} those objects).
+
+
+
+%A \textit{set membership problem} is the most straightforward and most efficient. Given a set of locations, each of which has a set of objects it 'owns' and a set of objects in the search term, which locations have complete coverage of the search set.
+\subsubsection{\textbf{Ranked membership search}}
+When the exact membership search returns a large number of hits, such as for a broad query (i.e. Which locations have a tree and a bench?) the ranking of those locations can help narrow the results. Using Algorithm \ref{alg:rank}, we aggregate the confidence scores from the object tagging and ownership assignment stages to determine the overall likelihood that a given location contains the object of interest. These scores are then aggregated per location for the relevant query objects, and the final scores determine the ranking of the results. 
+
+
 
 
 \subsubsection{\textbf{Fuzzy Membership Search}}
@@ -150,7 +153,7 @@ However, the precision we recorded is reasonable, which points to the discrimina
 \paragraph{Search Complexity}
 
 \small{
-\begin{figure}[h]
+\begin{figure*}[h]
     \centering
     \begin{subfigure}[t]{.45\textwidth}
         \includesvg[width=\textwidth]{queryExecutionRecall.svg}
@@ -165,7 +168,7 @@ However, the precision we recorded is reasonable, which points to the discrimina
 
     \caption{Number of candidate locations and query response times for queries on the Washington D.C. Dataset (12,179 Locations, 91,188 objects).}\label{figure:PerformanceExperiments}\label{fig:queryExecutionRecall}        \label{fig:queryExecutionTime}
     %A suite of queries run across the DC Dataset (12179 Locations, 148 Distinct classes among 91188 objects) clustered using DBSCAN with $\epsilon=0.00000156961$ (roughly 50m),MinCluster=$3$ and out Fuzzy Threshold$=0.0$. We use the 10 most common object classes: (eg crossing, traffic signals, street lamp, bus stop) to simulate worst case conditions where the user recalls almost no distinguishing features of their target location} 
-\end{figure}
+\end{figure*}
 }
 
 %\subsubsection{Theoretical Complexity}
@@ -179,7 +182,7 @@ A detailed theoretical analysis of search complexity for the three forms of spat
 To assess scalability of \emph{GESTALT} on real data, we measure query response times on the \textit{D.C worst-case queries} and the \textit{Washington D.C. dataset} (which contains over 91,000 objects and 12,000 locations).
 Figure \ref{fig:queryExecutionTime} shows these results as the number of query terms increases. 
 For the three membership searches (exact, ranked, and fuzzy), the response times decrease as the number of objects specified in the query increases (i.e. as the pool of possible locations meeting the query specification narrows), following the trend in Figure \ref{fig:queryExecutionRecall} which shows the aggressive pruning that takes place as the queries become more specific.
-\nrscomment{this wont be true of rot-inv. add data point and do anaylsis} Critically, this same effect is achieved for the object-object spatial search, where the recursive pruning of the search space quickly eliminates any candidates that are not viable matches to the pictorial query specification.
+\nrscomment{this wont be true of rot-inv. add data and anaylsis} Critically, this same effect is achieved for the object-object spatial search, where the recursive pruning of the search space quickly eliminates any candidates that are not viable matches to the pictorial query specification.
 The location-object search does not show this effect because it counts the number of objects matching the query configuration and uses that to rank candidates, so no early stopping is done when the right object is found to the wrong cardinal direction of the location. %which iterates through the quadrants of each location and counts the number of objects matching the directional specification from the query,
 %it does not stop early when a candidate does not match on an object, instead returning the count of matches to be used to rank all of the candidates.
 
