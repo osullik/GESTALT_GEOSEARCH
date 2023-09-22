@@ -13,17 +13,31 @@ The success of \textit{GeoGuessr} shows that enough objects, even common ones, h
 \emph{GESTALT}'s approach to geospatial search closely follows the \textit{Winthrop Method}~\cite{Keatley2021} which was developed in Northern Ireland in the 1970s to detect clandestine weapons caches.
 The core principle behind this method is that humans form mental models of terrain based on objects in the environment, and then use those to navigate.
 Other research has shown that When revisiting locations, the objects can even serve as keys to other memories of that location~\cite{Miller2013}.
+Specific to geospatial searc systems, as part of their design of the \textit{Sketchmapia} system Schwering et. al. synthesize the findings of multiple user studies. Their analysis reveals that most humans are not effective at recalling the distance between objects, or their relation to cardinal directions. They are however, very effective at remembering the relative configuration of objects when reproducing maps as sketches \cite{Schwering2014}.
+
 
 
 \subsection{Spatial and Pictorial Querying}
-The spatial search functionality of \emph{GESTALT} leverages a pictorial query interface to bridge the gap between the user's mental model of objects, and the geospatial data available to search. 
+\par{The spatial search functionality of \emph{GESTALT} leverages a pictorial query interface to bridge the gap between the user's mental model of objects, and the geospatial data available to search. 
 %The idea of pictorial querying was developed by Soffer and Samet~\cite{Soffer1997}.
 %Their approach focuses on matching locations from a user-defined pictorial input to an underlying database of maps. 
 %In the 27 years since Soffer and Samet first specified the Pictorial Query Language, considerable advances in digital storage and access to geospatial data have addressed some of the initial scale limitations that the conversion of maps to digital pictorial representations presents. 
 %For example, the role of a system like MAGELLAN~\cite{Samet1998} in \emph{GESTALT} is replaced by sourcing the locations from OSM, and the requirement for a separate system to efficiently index and query map tiles like MARCO~\cite{Samet1996} is now handled by OSM in its entirety. 
-\nrscomment{@kent turn this into a few sentence summary on whats out there w.r.t. spatial querying systems}
-Additional work in pictorial querying notes the problem of searching when there are multiple instances of the objects, which is NP-Complete when formulated as a subgraph matching problem~\cite{Folkers2000}. 
-\textit{GESTALT} addresses the complexity issues by successively pruning the search space, beginning with the last-mile search region, pruning out any locations that fail to contain the query terms, and then commencing the spatial search, which involves recursively pruning the search space even further, until a candidate location is determine to match or not match the configuration specified in the pictorial query.
+The most common forumulations of the problem are as constraint satisfaction problems within qualitative spatial reasoning, set-based search and as a graph-matching problem. 
+Dylla et. al. provided a comprehensive survey of these qualitative reasoning approaches in 2017 \cite{Dylla2017}. 
+They highlight that the importance of abstracting complex and infinite spatial and temporal dimensions of the real world into a representation that is suitable for formal reasoning.
+Despite the abstraction, none of the systems that they surveyed are performant at scale. 
+%An exemplar from this category is the \textit{StarVars} system. 
+%StarVars extends the earlier \textit{STAR} system to support reasoning about the relative locations of objects to each other by dividing the space around each of the \textit{n} objects into \textit{m} sectors that tracks the objects that fall witin each sector. 
+%It implements an NP algorithm that runs in $m^n$ for constraint satisfcation that only fails when there is no solution, making it impractical for large query sets.
+Set-based approaches to pictorial querying explored matching on the dimensions of \textit{matching similarity} (is object in the database the one in the query?), \textit{contextual similarity} (what proportion of query objects must match?), and \textit{spatial similariy} (how many topological constraints must be enforced?). 
+Early formulations of the problem by Soffer were limited to single instances of query objects in the sets \cite{Soffer1997} \cite{Soffer1998a}. 
+They were then reshaped as tree-based queries \cite{Soffer1999} to support multiple object instances and then again as isomorphic subgraph matching problems to strengthen topological matching, at the cost of becoming NP-Complete \cite{Folkers2000}.
+Work in \textit{query-by-sketch} is related but distinct area of work that typically seeks to match a map area in database by a user sketch-map that is digitised and used as a query. 
+For example, the \textit{Sketchmapia} system developed by Schwering et. al. in 2014 accepts a user sketch, extracts features of \textit{street segments}, \textit{junctions}, \textit{landmarks} and \textit{city blocks} to formulate a \textit{Qualitative Constraint Network} that they then search for in the database using incremental sub-graph matching. 
+\textit{Query-by-sketch} is better suited for retriving areas larger than individual locations, relies on street configuraton and works poorly for locations that are isolated, or whose distincitve features are indoors. 
+
+\textit{GESTALT} addresses the complexity issues by successively pruning the search space, beginning with the last-mile search region, pruning out any locations that fail to contain the query terms, and then commencing the spatial search, which involves recursively pruning the search space even further, until a candidate location is determine to match or not match the configuration specified in the pictorial query.}
 
 
 
