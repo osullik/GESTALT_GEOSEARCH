@@ -7,7 +7,7 @@ Under these conditions, the search problem can be framed in several ways, which 
 
 \subsection{Search Query Sets}
 We tested \emph{GESTALT}'s search performance by creating two sets of queries (\textit{Swan Valley ground truth queries}, and \textit{D.C. worst case queries}). 
-For reproducibility, we provide both sets of queries in the form of object names and their spatial configurations. \nrscomment{verify that we release DC}
+For reproducibility, we provide both sets of queries in the form of object names and their spatial configurations. 
 For the Swan Valley set we also provide the expected results set for each query. 
 The Swan Valley queries are designed to measure precision and recall. 
 To construct them, we hand labeled the ground truth responses for 24 spatial queries on object configurations for arbitrary objects belonging to 6 wineries in the Swan Valley Wineries dataset. 
@@ -96,7 +96,10 @@ The most discriminative terms are emphasized since rare objects are memorable an
 \end{algorithm}
 
 \subsubsection{\textbf{Spatial Search}}
-\nrscomment{high level overview and cite COMPASS, point to Figure \ref{figure:spatial_search}}
+\emph{GESTALT}'s core search functionality comes from the spatial search methods it enables, which rely on the spatial data structures and algorithms described in \emph{COMPASS}~\cite{Osul2023}.
+The location-centric search method (Location-Object search) allows the user to query for locations based on the relative position of objects in each of the 4 cardinal directions, depicted in Figure \ref{fig:spatial_search_loc}.
+The object-centric search method (Object-Object search) allows the user to specify the relative layout of objects concerning each other, regardless of where they are relative to the location under search (Figure \ref{fig:spatial_search_obj}.
+A third form of spatial search is also supported, which mimics the Object-Object search but removes the requirement that the query pattern be provided with the correct cardinal alignment compared to the actual pattern of objects in the real world.
 
 
 \begin{figure}[h]
@@ -140,7 +143,8 @@ The most discriminative terms are emphasized since rare objects are memorable an
 \end{table}
 }
 
-\paragraph{Search Performance}
+\paragraph{Search Performance.}
+
 To evaluate \emph{GESTALT}'s search process from end to end in a noisy environment, we test it using the \textit{Swan Valley ground truth queries} and the \textit{Combined} dataset.
 The results (Table \ref{Table:GroundTruth}) show that \emph{GESTALT} has a high recall on both methods of query specification, object-location and object-object.
 We expect precision to be low on these query results when compared to the ground-truth, since the \textit{Combined} dataset includes many additional locations that were not considered during the hand-labeling.
@@ -150,7 +154,7 @@ However, the precision we recorded is reasonable, which points to the discrimina
 %The recall of the Loc-Obj queries tends to increase with the number of query terms, as they are additive. 
 %The precision of the obj-obj queries is negatively impacted by single term queries, which returns any location with that object present.
 
-\paragraph{Search Complexity}
+\paragraph{Search Complexity.}
 
 \small{
 \begin{figure*}[h]
@@ -166,7 +170,7 @@ However, the precision we recorded is reasonable, which points to the discrimina
         %\caption{Query time remains constant for Pictorial Obj-Obj querying after a second item because it only requires a single matrix traversal per location to match the query pattern to that candidate location. The set intersections in our Index Searches are order-optimized to execute the most discriminitive sets first in queries.}    
     \end{subfigure}
 
-    \caption{Number of candidate locations and query response times for queries on the Washington D.C. Dataset (12,179 Locations, 91,188 objects).}\label{figure:PerformanceExperiments}\label{fig:queryExecutionRecall}        \label{fig:queryExecutionTime}
+    \caption{Number of candidate locations and query response times for each type of spatial query \emph{GESTALT} supports. Measured on the Washington D.C. Dataset (12,179 Locations, 91,188 objects).}\label{figure:PerformanceExperiments}\label{fig:queryExecutionRecall}        \label{fig:queryExecutionTime}
     %A suite of queries run across the DC Dataset (12179 Locations, 148 Distinct classes among 91188 objects) clustered using DBSCAN with $\epsilon=0.00000156961$ (roughly 50m),MinCluster=$3$ and out Fuzzy Threshold$=0.0$. We use the 10 most common object classes: (eg crossing, traffic signals, street lamp, bus stop) to simulate worst case conditions where the user recalls almost no distinguishing features of their target location} 
 \end{figure*}
 }
@@ -178,11 +182,11 @@ However, the precision we recorded is reasonable, which points to the discrimina
 
 
 %\subsubsection{Empirical Complexity}
-A detailed theoretical analysis of search complexity for the three forms of spatial search is presented in \nrscomment{cite COMPASS}.
+A detailed theoretical analysis of search complexity for the three forms of spatial search is presented in \emph{COMPASS}~\cite{Osul2023}.
 To assess scalability of \emph{GESTALT} on real data, we measure query response times on the \textit{D.C worst-case queries} and the \textit{Washington D.C. dataset} (which contains over 91,000 objects and 12,000 locations).
 Figure \ref{fig:queryExecutionTime} shows these results as the number of query terms increases. 
 For the three membership searches (exact, ranked, and fuzzy), the response times decrease as the number of objects specified in the query increases (i.e. as the pool of possible locations meeting the query specification narrows), following the trend in Figure \ref{fig:queryExecutionRecall} which shows the aggressive pruning that takes place as the queries become more specific.
-\nrscomment{this wont be true of rot-inv. add data and anaylsis} Critically, this same effect is achieved for the object-object spatial search, where the recursive pruning of the search space quickly eliminates any candidates that are not viable matches to the pictorial query specification.
+Critically, this same effect is achieved for the object-object spatial searches, where the recursive pruning of the search space quickly eliminates any candidates that are not viable matches to the pictorial query specification.
 The location-object search does not show this effect because it counts the number of objects matching the query configuration and uses that to rank candidates, so no early stopping is done when the right object is found to the wrong cardinal direction of the location. %which iterates through the quadrants of each location and counts the number of objects matching the directional specification from the query,
 %it does not stop early when a candidate does not match on an object, instead returning the count of matches to be used to rank all of the candidates.
 
