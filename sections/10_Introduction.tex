@@ -20,14 +20,13 @@ Specifically, \emph{GESTALT} provides the following functionality:
 \begin{enumerate}
     \item Multiple methods for ingesting location and object tags, including automatically using object detection methods on geotagged images.
     \item Density-based clustering of object tags to fuzzily assign objects to (possibly multiple) nearby locations, enabling users to ask membership questions, like "Which locations contain a swimming pool, a statue, and a palm tree?"
-    \item Mapping objects associated with each location to a matrix (termed a \emph{ConceptMap}) to facilitate pictorially querying spatial relations like "A bus stop, pond, and telephone pole configured in a triangle"
     \item Performing probabilistic search over locations based on object membership queries and returning partial matches when the search constraints are too narrow, and ranked results when they are too broad.
 \end{enumerate}
 
 We contribute a new hand-labeled \textit{Swan Valley Wineries} dataset for the last-mile spatial search problem and provide a proof of concept implementation of the proposed \emph{GESTALT} architecture. We report the precision and recall on the ground truth data and execution performance metrics on a more extensive set of data to demonstrate the scalability of the search procedures.
 
 The rest of this paper is organized as follows. In section \ref{section:architecture}, we define the \emph{GESTALT} architecture and discuss how each subsystem contributes to our human-centric approach to automating the last-mile search. 
-Next, in section \ref{section:data}, we describe the process used to generate the gold standard wineries dataset and extract noisy object tags from geotagged images. Then, we describe the object ownership assignment process in section \ref{section:ownership}, the concept mapping step in section \ref{section:concept}, and the search problem in \ref{section:search}. 
+Next, in section \ref{section:data}, we describe the process used to generate the gold standard wineries dataset and extract noisy object tags from geotagged images. Then, we describe the object ownership assignment process in section \ref{section:ownership}, and the search problem in \ref{section:search}. 
 Finally, we summarize related work in section \ref{section:related} and conclude by identifying future research directions in section \ref{section:conclusion}.
 
 %Traditionally, analysts will get to a \textit{near-enough} start point and then begin the excruciating manual review of remote sensing imagery, photography and other reports to try to match the objects they know about to the location they are searching for in the geospatial configuration they are expecting.

@@ -23,7 +23,7 @@ Data Acquisition focuses on fusing data in various formats from various sources 
 
 \textbf{Ownership Assignment.}
 The Ownership Assignment subsystem of \emph{GESTALT} maps the \textit{objects} to the \textit{locations} they most likely belong to using a fuzzy clustering that allows objects to be assigned to multiple locations. 
-We use DBSCAN~\cite{DBSCAN} to cluster the objects on the first pass and prune out noisy objects that are unlikely to be associated with any particular location.
+We use DBSCAN~\cite{Ester1996} to cluster the objects on the first pass and prune out noisy objects that are unlikely to be associated with any particular location.
 The resulting cluster centroids are then mapped to locations based on proximity using a nearest-neighbor search on a KD-Tree, and objects are added to nearby clusters using an adjustable 'fuzziness' parameter.
 \emph{GESTALT}'s assignment protocol accounts for uncertainty in tag coordinates of locations and objects and allows for the possibility that objects can be visible from multiple locations in the real world.
 
@@ -38,6 +38,7 @@ The Search subsystem of \emph{GESTALT} enables the user to identify locations of
 The search process is designed for the way humans naturally conceptualize and describe locations and directions - by drawing a map.
 Queries can be issued using a pictorial specification, relating objects through relative cardinal relations (like Northwest, etc.) or cardinality-invariant relations (when the user does not recall any cardinal information).
 The Search subsystem supports fuzzy searching to return inexact matches when query terms are too narrowly defined and ranking to reflect the uncertainty in any given object's identification, tagging, and assignment to a location.
+
 
 %\subsection{Summary of Architecture}
 %The Architecture of \textit{GESTALT} is designed to be lightweight and modular. The core requirement is to automate the last-mile search problem and allow users to search for locations of interest based on partial information. 

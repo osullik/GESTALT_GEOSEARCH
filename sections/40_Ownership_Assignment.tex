@@ -65,7 +65,7 @@ By increasing the parameter value, we can allow for objects to be assigned to mu
 \end{algorithm}
 
 %\subsection{Results} \label{subsection:own_results}
-We run all Swan Valley Wineries experiments with DBSCAN parameter $\epsilon = \frac{0.05}{6371}$ and DC experiments with $\epsilon = \frac{0.01}{6371}$. For both the MinClusterSize=$3$. We choose these values using the knowledge that the environment of interest (Swan Valley region) is semi-rural. The epsilon value is set to the equivalent of roughly 50m	, a reasonable cluster neighborhood size for such an environment. The minClusterSize is not critical to the assignment process because fuzzy assignment allows objects to be added to nearby clusters, which overcomes too fine a clustering outcome. 
+We run all Swan Valley Wineries experiments with DBSCAN parameter $\epsilon = \frac{0.05}{6371}$ (~50m) and DC experiments with $\epsilon = \frac{0.01}{6371}$ (~10m). For both the MinClusterSize=$3$. We choose these values using the knowledge that the environment of interest (Swan Valley region) is semi-rural. The epsilon value is set to the equivalent of roughly 50m, a reasonable cluster neighborhood size for such an environment. The minClusterSize is not critical to the assignment process because fuzzy assignment allows objects to be added to nearby clusters, which overcomes too fine a clustering outcome. 
 
 
 
@@ -109,6 +109,7 @@ We leave a detailed comparison of Object Ownership Assignment techniques as an i
         \caption{ Object-to-location assignment results for Swan Valley Wineries and Combined datasets. Increasing fuzziness improves recall on the noisier \textit{Combined} dataset.} %increases the chance objects are assigned to multiple clusters, which
         \label{table:clustering}
     \end{center}
+    \vspace{-18pt}
 \end{table}
 }
 \normalsize
