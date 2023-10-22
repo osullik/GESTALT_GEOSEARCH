@@ -10,7 +10,7 @@ People tend to anchor memories on objects they see while experiencing a location
 Even robots we design to do perception need visual anchoring~\cite{Oliveira2016}.
 Reliance on anchoring underpins \emph{GESTALT}'s human-centric approach to last-mile spatial search wherein the goal is to retrieve locations within a region given information about their objects.
 Last-mile search forms the reciprocal problem to the online game \textit{Geoguessr}~\footnote{\href{https://www.geoguessr.com/}{https://www.geoguessr.com/}}, which challenges users to determine the broad region of a photograph based on the visible objects.
-The success of high-performing players of \textit{GeoGuessr} shows that enough objects, even common ones, have the power to substantially prune a large search space down to just a few, or even one candidate region \cite{Berners-Lee2023}.
+The success of high-performing players of \textit{GeoGuessr} shows that enough objects, even common ones, have the power to substantially prune a large search space down to just a few, or even one candidate region \cite{BernersLee2023}.
 \emph{GESTALT}'s approach to geospatial search closely follows the \textit{Winthrop Method}~\cite{Keatley2021} which was developed in Northern Ireland in the 1970s to detect clandestine weapons caches.
 The core principle behind this method is that humans form mental models of terrain based on objects in the environment, and then use those to navigate.
 Other research has shown that when revisiting locations, the objects can even serve as keys to other memories of that location~\cite{Miller2013}.
@@ -24,15 +24,15 @@ Specific to geospatial search systems, Schwering et. al. synthesize the findings
 %Their approach focuses on matching locations from a user-defined pictorial input to an underlying database of maps. 
 %In the 27 years since Soffer and Samet first specified the Pictorial Query Language, considerable advances in digital storage and access to geospatial data have addressed some of the initial scale limitations that the conversion of maps to digital pictorial representations presents. 
 %For example, the role of a system like MAGELLAN~\cite{Samet1998} in \emph{GESTALT} is replaced by sourcing the locations from OSM, and the requirement for a separate system to efficiently index and query map tiles like MARCO~\cite{Samet1996} is now handled by OSM in its entirety. 
-The most common forumulations of the problem are as qualitative spatial reasoning constraint satisfaction problems, set-based search and as a graph-matching problem. 
+The most common formulations of the problem are as qualitative spatial reasoning constraint satisfaction problems, set-based search and as a graph-matching problem. 
 Dylla et. al. provided a comprehensive survey of these qualitative reasoning approaches in 2017 \cite{Dylla2017}. 
 Despite all of the approaches abstracting the real-world for reasoning, none of the systems that they surveyed are performant at a production system scale. 
 %An exemplar from this category is the \textit{StarVars} system. 
 %StarVars extends the earlier \textit{STAR} system to support reasoning about the relative locations of objects to each other by dividing the space around each of the \textit{n} objects into \textit{m} sectors that tracks the objects that fall witin each sector. 
 %It implements an NP algorithm that runs in $m^n$ for constraint satisfcation that only fails when there is no solution, making it impractical for large query sets.
-Set-based approaches to pictorial querying explored matching on the dimensions of \textit{matching similarity}, \textit{contextual similarity}, and \textit{spatial similariy} \cite{Soffer1997} \cite{Soffer1998a}. 
+Set-based approaches to pictorial querying explored matching on the dimensions of \textit{matching similarity}, \textit{contextual similarity}, and \textit{spatial similarity} \cite{Soffer1997} \cite{Soffer1998a}. 
 They were then reshaped as tree-based queries \cite{Soffer1999} and then again as isomorphic subgraph matching problems to strengthen topological matching, at the cost of becoming NP-Complete \cite{Folkers2000}.
-Work in \textit{query-by-sketch} is related but distinct area of that typically seeks to match a map area in database by a user sketch-map that is digitised and used as a query. Systems like \textit{Sketchmapia} \cite{Schwering2014} are better suited for retriving areas larger than individual locations. 
+Work in \textit{query-by-sketch} is related but distinct area of that typically seeks to match a map area in database by a user sketch-map that is digitized and used as a query. Systems like \textit{Sketchmapia} \cite{Schwering2014} are better suited for retrieving areas larger than individual locations. 
 %For example, the \textit{Sketchmapia} system developed by Schwering et. al. in 2014 accepts a user sketch, extracts features of \textit{street segments}, \textit{junctions}, \textit{landmarks} and \textit{city blocks} to formulate a \textit{Qualitative Constraint Network} that they then search for in the database using incremental sub-graph matching. 
 %\textit{Query-by-sketch} is better suited for retriving areas larger than individual locations, relies on street configuraton and works poorly for locations that are isolated, or whose distincitve features are indoors. 
 
@@ -41,7 +41,7 @@ Work in \textit{query-by-sketch} is related but distinct area of that typically 
 
 
 \subsection{Automated Geospatial Search}
-In recent months the Open Source Intelligence platform \textit{Bellingcat}\footnote{\href{https://www.bellingcat.com/about/who-we-are/}{Bellingcat Website}} released \textit{Bellingcat OSM Search}\footnote{\href{https://osm-search.bellingcat.com/}{Bellingcat OSM Search Tool}}\cite{Williams2023}, a tool also aimed at pruning search space using tagged objects. 
+In recent months the Open Source Intelligence platform \textit{Bellingcat}\footnote{\href{https://www.bellingcat.com/about/who-we-are/}{https://www.bellingcat.com/about/who-we-are/}} released \textit{Bellingcat OSM Search}\footnote{\href{https://osm-search.bellingcat.com/}{https://osm-search.bellingcat.com/}}\cite{Williams2023}, a tool also aimed at pruning search space using tagged objects. 
 Using drop-downs and sliding bars, a user can specify a text-based query for OSM tagged objects that appear within an adjustable distance from each other inside a region of interest. 
 Although aimed at addressing the same last-mile search problem as \emph{GESTALT}, there are several key limitations to the Bellingcat OSM Search Tool that \emph{GESTALT} overcomes.
 \begin{enumerate}

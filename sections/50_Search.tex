@@ -10,7 +10,7 @@ We tested \emph{GESTALT}'s search performance by creating two sets of queries (\
 For reproducibility, we provide both sets of queries in the form of object names and their spatial configurations. 
 For the Swan Valley set we also provide the expected results set for each query. 
 The Swan Valley queries are designed to measure precision and recall. 
-To construct them, we hand labeled the ground truth responses for 24 spatial queries on object configurations for arbitrary objects belonging to 6 wineries in the Swan Valley Wineries dataset. 
+To construct them, we hand labeled the ground truth responses for 58 spatial queries on object configurations for arbitrary objects belonging to 6 wineries in the Swan Valley Wineries dataset. 
 The \textit{D.C worst case queries} are designed to test \emph{GESTALT}'s performance under the worst case search conditions where the user recalls no highly distinctive features of their target location.
 We construct these queries on the noisy Washington D.C. dataset, using the 10 most common object classes as query terms (e.g. crossing, traffic signals, street lamp, bus stop).
 
@@ -99,7 +99,7 @@ The most discriminative terms are emphasized since rare objects are memorable an
 \emph{GESTALT}'s core search functionality comes from the spatial search methods it enables, which rely on the spatial data structures and algorithms described in \emph{COMPASS}~\cite{Osul2023}.
 The location-centric search method (Location-Object search) allows the user to query for locations based on the relative position of objects in each of the 4 cardinal directions, depicted in Figure \ref{fig:spatial_search_loc}.
 The object-centric search method (Object-Object search) allows the user to specify the relative layout of objects concerning each other, regardless of where they are relative to the location under search (Figure \ref{fig:spatial_search_obj}.
-A third form of spatial search is also supported, which mimics the Object-Object search but removes the requirement that the query pattern be provided with the correct cardinal alignment compared to the actual pattern of objects in the real world.
+A third form of spatial search (Cardinality Invariant Object-Object search) is also supported, which mimics the Object-Object search but removes the requirement that the query pattern be provided with the correct cardinal alignment compared to the actual pattern of objects in the real world.
 
 
 \begin{figure}[h]
@@ -128,28 +128,39 @@ A third form of spatial search is also supported, which mimics the Object-Object
     \begin{center}
         \begin{tabular}{ |c|c|c|c| } 
             \hline
-            Query Method & Metric & Results \\
+            Search Method & Metric & Results \\
             \hline
-            \multirow{2}{7em}{Loc-Obj} & Mean Precision & $0.854$ \\
-            & Mean Recall & $0.917$\\%& 
+            \multirow{2}{18em}{Location-Object Search} & Mean Precision & $1.000$ \\
+            & Mean Recall & $0.800$\\%& 
             \hline     
-            \multirow{2}{7em}{Obj-Obj} & Mean Precision & $0.721$ \\ 
-            &Mean Recall & $0.875$ \\
+            \multirow{2}{18em}{Object-Object Search} & Mean Precision & $0.947$ \\ 
+            &Mean Recall & $0.737$ \\
+            \hline
+            \multirow{2}{18em}{Object-Object Cardinality Invariant Search} & Mean Precision & $0.825$ \\ 
+            &Mean Recall & $0.816$ \\
             \hline
         \end{tabular}
-        \caption{Spatial results across 24 ground-truth pictorial queries run on the \textit{combined swan valley wineries} dataset.} %Clustering used DBSCAN with $\epsilon = \frac{0.05}{6371}$ and MinCluster=$3$.} 
+        \caption{Spatial results across 58 ground-truth pictorial queries run on the \textit{Combined Swan Valley Wineries} dataset.} %Clustering used DBSCAN with $\epsilon = \frac{0.05}{6371}$ and MinCluster=$3$.} 
         \label{Table:GroundTruth}
     \end{center}
     \vspace{-20pt}
 \end{table}
 }
 
-\paragraph{Search Performance.}
+\paragraph{Search Performance Results.}
 
-To evaluate \emph{GESTALT}'s search process from end to end in a noisy environment, we test it using the \textit{Swan Valley ground truth queries} and the \textit{Combined} dataset.
-The results (Table \ref{Table:GroundTruth}) show that \emph{GESTALT} has a high recall on both methods of query specification, object-location and object-object.
-We expect precision to be low on these query results when compared to the ground-truth, since the \textit{Combined} dataset includes many additional locations that were not considered during the hand-labeling.
-However, the precision we recorded is reasonable, which points to the discriminative power of spatial configurations of objects as a search constraint.
+To evaluate \emph{GESTALT}'s search process from end to end in a noisy environment, we test it using the \textit{Swan Valley ground truth query set} and the \textit{Combined} dataset.
+The results (Table \ref{Table:GroundTruth}) show that \emph{GESTALT} has a high precision and recall on all 3 methods of spatial search.
+%We observed an improvement in recall and reduction in precision when comparing the Cardinality Invariant form of Object-Object search to the regular form, which is expected because a spatial configuration of objects may happen to exist for locations that were not labeled in the ground truth.
+As we would expect, the cardinality invariant version of Object-Object search outperforms the regular version in terms of recall, at the cost of precision.
+This is the case because rotated versions of the object configuration in some ground truth queries may happen to exist at other locations in the noisy \textit{Combined} dataset that were not labeled in the ground truth, causing false positives.
+In general, we observed that increasing the number of objects in the query reduced the false positive rate, since additional constraints led to fewer chance collisions with other locations not considered during the hand-labeling.
+The queries tested contained between 1 and 4 objects per query, which was sufficient to observe reasonable precision overall, indicating the discriminative power of spatial configurations of objects as a search constraint.
+%We expect precision to be low on these queries, since the \textit{Combined} dataset includes many additional locations that were not considered during the hand-labeling.
+%However, the precision we recorded is reasonable, which points to the discriminative power of spatial configurations of objects as a search constraint.
+\nrscomment{kent check 5.3, I changed it from original submission}
+
+
 
 %ran 12 queries on each pictorial querying method and record the results in table \ref{Table:GroundTruth}. 
 %The recall of the Loc-Obj queries tends to increase with the number of query terms, as they are additive. 
