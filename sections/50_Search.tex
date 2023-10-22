@@ -14,6 +14,7 @@ To construct them, we hand labeled the ground truth responses for 58 spatial que
 The \textit{D.C worst case queries} are designed to test \emph{GESTALT}'s performance under the worst case search conditions where the user recalls no highly distinctive features of their target location.
 We construct these queries on the noisy Washington D.C. dataset, using the 10 most common object classes as query terms (e.g. crossing, traffic signals, street lamp, bus stop).
 
+%\vspace{-5em}
 \begin{algorithm}
     \caption{Membership Search}\label{alg:search}
     \begin{algorithmic}
@@ -30,7 +31,7 @@ We construct these queries on the noisy Washington D.C. dataset, using the 10 mo
     \end{algorithmic}
 \end{algorithm}
 
-\begin{algorithm}[H]
+\begin{algorithm}[h]
     \caption{Ranked Membership Search}\label{alg:rank}
     \begin{algorithmic}
         \State{\textit{\textbf{Q} a list of query terms to search for}}
@@ -52,6 +53,7 @@ We construct these queries on the noisy Washington D.C. dataset, using the 10 mo
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
+\normalsize
 
 \subsection{Search Method}
 
@@ -68,7 +70,7 @@ When the exact membership search returns a large number of hits, such as for a b
 
 
 \subsubsection{\textbf{Fuzzy Membership Search}}
-When the exact membership search returns no matching locations, we use a fuzzy search procedure (Algorithm \ref{alg:fuzzySearch}) to find a set of partial match locations based on the most discriminative object(s) in the list of query terms provided. 
+When the exact membership search returns no matches, we use a fuzzy search procedure (Algorithm \ref{alg:fuzzySearch}) to find a set of partial matches based on the most discriminative object(s) in the list of query terms. 
 The most discriminative terms are emphasized since rare objects are memorable and more uniquely identify locations than common objects do.
 
 \begin{algorithm}
@@ -94,6 +96,7 @@ The most discriminative terms are emphasized since rare objects are memorable an
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
+\normalsize
 
 \subsubsection{\textbf{Spatial Search}}
 \emph{GESTALT}'s core search functionality comes from the spatial search methods it enables, which rely on the spatial data structures and algorithms described in \emph{COMPASS}~\cite{Osul2023}.
@@ -116,9 +119,9 @@ A third form of spatial search (Cardinality Invariant Object-Object search) is a
         \label{fig:spatial_search_obj}
     \end{subfigure}
     \hfill
-    \caption{\textbf{Spatial search methods using pictorial queries. In Figure \ref{fig:spatial_search_loc}, objects are queried by cardinal direction to location sought. In Figure \ref{fig:spatial_search_obj}, locations containing objects in a given spatial configuration to each other are sought.}}\label{figure:spatial_search} 
+    \caption{\textbf{Spatial search by cardinal direction to location sought (Figure \ref{fig:spatial_search_loc}) and by directional relationship between objects (Figure \ref{fig:spatial_search_obj}).}}\label{figure:spatial_search} 
 \end{figure}
-
+\normalsize
 
 
 \subsection{Search Results}
@@ -146,20 +149,19 @@ A third form of spatial search (Cardinality Invariant Object-Object search) is a
     \vspace{-20pt}
 \end{table}
 }
-
+\normalsize
 \paragraph{Search Performance.}
 
 To evaluate \emph{GESTALT}'s search process from end to end in a noisy environment, we test it using the \textit{Swan Valley ground truth query set} and the \textit{Combined} dataset.
-The results (Table \ref{Table:GroundTruth}) show that \emph{GESTALT} has a high precision and recall on all 3 methods of spatial search.
-%We observed an improvement in recall and reduction in precision when comparing the Cardinality Invariant form of Object-Object search to the regular form, which is expected because a spatial configuration of objects may happen to exist for locations that were not labeled in the ground truth.
-As we would expect, the cardinality invariant version of Object-Object search outperforms the regular version in terms of recall, at the cost of precision.
+The results (Table \ref{Table:GroundTruth}) show that \emph{GESTALT} has a high precision and recall on all three methods of spatial search.
+%We observed an improvement in recall and reduction in precision when comparing the Cardinality Invariant form of Object-Object search to the regular form, which is expected because a spatial configuration of objects may exist for locations not labeled in the ground truth.
+The cardinality-invariant version of the Object-Object search outperforms the non-invariant version in terms of recall at the cost of precision.
 This is the case because rotated versions of the object configuration in some ground truth queries may happen to exist at other locations in the noisy \textit{Combined} dataset that were not labeled in the ground truth, causing false positives.
-In general, we observed that increasing the number of objects in the query reduced the false positive rate, since additional constraints led to fewer chance collisions with other locations not considered during the hand-labeling.
-The queries tested contained between 1 and 4 objects per query, which was sufficient to observe reasonable precision overall, indicating the discriminative power of spatial configurations of objects as a search constraint.
+In general, we observed that increasing the number of objects in the query reduced the false positive rate since additional constraints led to fewer chance collisions with other locations not considered during the hand-labeling.
+The queries tested contained between one and four objects per query, sufficient to observe reasonable precision overall, indicating the discriminative power of spatial configurations of objects as a search constraint.
+
 %We expect precision to be low on these queries, since the \textit{Combined} dataset includes many additional locations that were not considered during the hand-labeling.
 %However, the precision we recorded is reasonable, which points to the discriminative power of spatial configurations of objects as a search constraint.
-\nrscomment{kent check 5.3, I changed it from original submission}
-
 
 
 %ran 12 queries on each pictorial querying method and record the results in table \ref{Table:GroundTruth}. 
@@ -188,6 +190,7 @@ The queries tested contained between 1 and 4 objects per query, which was suffic
     \vspace{-10pt}
 \end{figure*}
 }
+\normalsize
 
 %\subsubsection{Theoretical Complexity}
 
