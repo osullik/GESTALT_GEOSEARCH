@@ -140,14 +140,14 @@ A third form of spatial search (Cardinality Invariant Object-Object search) is a
             &Mean Recall & $0.816$ \\
             \hline
         \end{tabular}
-        \caption{Spatial results across 58 ground-truth pictorial queries run on the \textit{Combined Swan Valley Wineries} dataset.} %Clustering used DBSCAN with $\epsilon = \frac{0.05}{6371}$ and MinCluster=$3$.} 
+        \caption{Spatial search performance results across 58 ground-truth pictorial queries run on the \textit{Combined Swan Valley Wineries} dataset.} %Clustering used DBSCAN with $\epsilon = \frac{0.05}{6371}$ and MinCluster=$3$.} 
         \label{Table:GroundTruth}
     \end{center}
     \vspace{-20pt}
 \end{table}
 }
 
-\paragraph{Search Performance Results.}
+\paragraph{Search Performance.}
 
 To evaluate \emph{GESTALT}'s search process from end to end in a noisy environment, we test it using the \textit{Swan Valley ground truth query set} and the \textit{Combined} dataset.
 The results (Table \ref{Table:GroundTruth}) show that \emph{GESTALT} has a high precision and recall on all 3 methods of spatial search.
@@ -183,7 +183,7 @@ The queries tested contained between 1 and 4 objects per query, which was suffic
         %\caption{Query time remains constant for Pictorial Obj-Obj querying after a second item because it only requires a single matrix traversal per location to match the query pattern to that candidate location. The set intersections in our Index Searches are order-optimized to execute the most discriminitive sets first in queries.}    
     \end{subfigure}
 
-    \caption{Number of candidate locations and query response times for each type of spatial query \emph{GESTALT} supports. Measured on the Washington D.C. Dataset (12,179 Locations, 91,188 objects).}\label{figure:PerformanceExperiments}\label{fig:queryExecutionRecall}        \label{fig:queryExecutionTime}
+    \caption{Spatial search complexity results measured in number of candidate locations and query response times for each type of spatial query \emph{GESTALT} supports. Measured on the Washington D.C. Dataset (12,179 Locations, 91,188 objects).}\label{figure:PerformanceExperiments}\label{fig:queryExecutionRecall}        \label{fig:queryExecutionTime}
     %A suite of queries run across the DC Dataset (12179 Locations, 148 Distinct classes among 91188 objects) clustered using DBSCAN with $\epsilon=0.00000156961$ (roughly 50m),MinCluster=$3$ and out Fuzzy Threshold$=0.0$. We use the 10 most common object classes: (eg crossing, traffic signals, street lamp, bus stop) to simulate worst case conditions where the user recalls almost no distinguishing features of their target location} 
     \vspace{-10pt}
 \end{figure*}

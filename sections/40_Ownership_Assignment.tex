@@ -1,17 +1,17 @@
 \section{Ownership Assignment}
 \label{section:ownership}
 
-We formulate the last-mile search problem in terms of \textit{locations}, which are searchable entities that 'own' or contain any number of \textit{objects}. %(i.e., a location that contains <object1, object2, etc.>, or a location that contains <object1 Northeast of object2>). 
+We formulate the last-mile search problem in terms of \textit{locations}, which are searchable entities that `own' or contain any number of \textit{objects}. %(i.e., a location that contains <object1, object2, etc.>, or a location that contains <object1 Northeast of object2>). 
 To support user queries, \emph{GESTALT} must associate objects with their parent locations.
 We call this problem \textit{Object Ownership Assignment} and define it as follows.
-Given a collection of locations and objects within a region, \emph{Ownership Assignment} seeks to assign each object to its 'parent' location correctly. 
-Ownership Assignment amounts to a clustering problem where points (objects) are assigned to centroids (locations) that are known apriori. 
+Given a collection of locations and objects within a region, \emph{Ownership Assignment} seeks to assign each object to its `parent' location correctly. 
+Ownership Assignment amounts to a clustering problem where we assign points (objects) to centroids (locations) that are known apriori. 
 The objects are not uniformly distributed across locations, and some locations may not have associated tagged objects. 
 
-Further, the human eye does not see the world in regular grid lines like on a map. Hence, the ownership assignment process is naturally inexact, and objects are 'shared' between locations where appropriate.
+Further, the human eye does not see the world in regular grid lines like on a map. Hence, the ownership assignment process is naturally inexact, and objects are `shared' between locations where appropriate.
 For example, a winery may have a shed out back that is visible both from that winery and a neighboring one. 
 In this case, the object can be helpful when searching for either location. 
-We address this aspect of the problem by modifying our method to allow for fuzzy object-location assignment, effectively increasing the recall of the method. 
+We address this aspect of the problem by modifying our method to allow for fuzzy object-location assignment, effectively increasing the recall. 
 
 \subsection{Object Ownership Assignment Dataset}
 

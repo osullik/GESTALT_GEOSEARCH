@@ -18,7 +18,7 @@ The architecture of \textit{GESTALT} (Figure \ref{fig:architecture}) covers four
 We describe and motivate each of them below, leaving the implementation details for sections \ref{section:data} through \ref{section:search}. 
 
 \textbf{Data Acquisition.}
-The Data Acquisition subsystem of \emph{GESTALT} leverages a variety of data sources to ingest or tag objects and locations, including hand-labeled data in KML files, crowd-sourced object and location labels from OSM, and automatically generated object tags it extracts from Flickr images geolocated within the region of interest. 
+The Data Acquisition subsystem of \emph{GESTALT} leverages a variety of data sources to ingest or tag objects and locations, including hand-labeled data in Keyhole Markup Language~\footnote{\href{https://developers.google.com/kml/documentation/kml\_tut}{https://developers.google.com/kml/documentation/kml\_tut}} (KML) files, crowd-sourced object and location labels from Open Street Maps (OSM)~\cite{Haklay2008}, and automatically generated object tags it extracts from Flickr images geolocated within the region of interest. 
 Data Acquisition focuses on fusing data in various formats from various sources into a standard format so the data can be transformed and searched.
 
 \textbf{Ownership Assignment.}
