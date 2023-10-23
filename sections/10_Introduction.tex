@@ -9,12 +9,12 @@ In these cases, GIS tools may help narrow down the general region of interest, b
 Last-mile search involves visually inspecting images to identify distinct landmarks or terrain features that match the partial information about the location. 
 The last-mile component of the search process is a bottleneck, as it encumbers the user with the burden of sifting through many possible candidate locations until the correct one is visually identified. 
 
-Last-mile search is a common problem in the open-source intelligence community, %where analysts must identify a specific location within a general region using incomplete or uncertain information. 
+Last-mile search is a common problem in the open-source intelligence community. %where analysts must identify a specific location within a general region using incomplete or uncertain information. 
 %The process is a data fusion and search task, where information from reports is manually compared to the visual features of remote sensing images and street-view photographs until the expected configuration of objects is found, indicating the location is a match.
-recent related work from \textit{Bellingcat}
+Recent related work from \textit{Bellingcat}
 %~\footnote{\href{https://www.bellingcat.com/resources/how-tos/2023/05/08/finding-geolocation-leads-with-bellingcats-openstreetmap-search-tool/}{https://www.bellingcat.com/resources/how-tos/2023/05/08/finding-geolocation-leads-with-bellingcats-openstreetmap-search-tool/}} 
 highlights the need for search techniques that can accommodate queries for collections of objects in close geographic proximity to each other.
-Automating the last-mile search process requires addressing additional criteria, including the relative spatial configuration of objects, uncertainty in the knowledge of a location by relaxing the search constraints until a partial match is found, and accounting for the fuzzy boundaries between locations, where an object may be visible from several nearby locations and can be associated with all of them to maximize the recall of the search result.
+Automating the last-mile search process requires addressing additional criteria, including the relative spatial configuration of objects, uncertainty in the knowledge of a location to allow for partial matches, and accounting for the fuzzy boundaries between locations, where an object may be visible from several nearby locations and can be associated with all of them to maximize the recall of the search result.
 
 We present \emph{GESTALT}\footnote{\url{https://github.com/osullik/GESTALT_GEOSEARCH}}$^,$\footnote{\url{https://gestalt.umiacs.umd.edu/}}, an end-to-end spatial search pipeline inspired by the way humans recall and search for information~\cite{Helbing2020, Oliveira2016, Weisberg2016}.
 \emph{GESTALT} extracts geospatial data, transforms it into coherent object and location relations, stores those relations, and enables search. 
@@ -26,10 +26,10 @@ Specifically, \emph{GESTALT} provides the following functionality:
     \item A proof-of-concept instance of the \emph{GESTALT} user interface with the Swan Valley and Washington DC regions available at \url{https://gestalt.umiacs.umd.edu}.
 \end{enumerate}
 
-We contribute a new hand-labeled \textit{Swan Valley Wineries} dataset for the last-mile spatial search problem and provide a proof of concept implementation of the proposed \emph{GESTALT} architecture. We report the precision and recall on ground truth data and execution performance metrics on a more extensive data set to demonstrate the search procedures' scalability.
+We contribute a new hand-labeled \textit{Swan Valley Wineries} dataset for the last-mile spatial search problem and provide a proof of concept implementation of the proposed \emph{GESTALT} architecture. We report the precision and recall on ground truth data and execution performance metrics on a more extensive data set to demonstrate the scalability of our search procedures.
 
 The rest of this paper is organized as follows. In section \ref{section:architecture}, we define the \emph{GESTALT} architecture and discuss how each subsystem contributes to our human-centric approach to automating the last-mile search. 
-Next, in section \ref{section:data}, we describe the process used to generate the wineries dataset and extract noisy object tags from geotagged images. Then, we describe the object ownership assignment process in section \ref{section:ownership}, and the search process in \ref{section:search}. 
+Next, in section \ref{section:data}, we describe the process used to generate the \textit{Swan Valley Wineries} dataset and extract noisy object tags from geotagged images. Then, we describe the object ownership assignment process in section \ref{section:ownership}, and the search process in \ref{section:search}. 
 Finally, we summarize related work in section \ref{section:related} and conclude by identifying future research directions in section \ref{section:conclusion}.
 
 %Traditionally, analysts will get to a \textit{near-enough} start point and then begin the excruciating manual review of remote sensing imagery, photography and other reports to try to match the objects they know about to the location they are searching for in the geospatial configuration they are expecting.

@@ -22,21 +22,19 @@ Data Acquisition fuses heterogeneous data formats to enable common representatio
 
 \textbf{Ownership Assignment.}
 The Ownership Assignment subsystem of \emph{GESTALT} maps the \textit{objects} to the \textit{locations} they most likely belong to using fuzzy clustering that allows objects to be assigned to multiple locations. 
-We use DBSCAN~\cite{Ester1996} to cluster the objects on the first pass and prune out noisy objects that are unlikely to be associated with any particular location.
-The resulting cluster centroids are then mapped to locations based on proximity using a nearest-neighbor search on a KD-Tree, and objects are added to nearby clusters using an adjustable `fuzziness' parameter.
 \emph{GESTALT}'s assignment protocol accounts for uncertainty in geotag coordinates of locations and objects and allows for the possibility that objects can be visible from multiple locations in the real world.
 
 \textbf{Data Structures.}
 \emph{GESTALT} creates several data structures (inverted index, location-object concept map, object-object concept map) to facilitate spatial search over objects and locations. 
-The inverted index maps each object class to the set of locations that contain objects of that type, enabling membership queries, which prune the search space for downstream spatial searching. 
-The location-object structure treats the coordinates of the \textit{location} as the division point on the north-south and west-east axes and maps the objects for each location to the corresponding quadrant they lie in with respect to the location.
-The object-object concept map (for each location) encodes the implicit directional relationships between the objects at that location using sparse matrices that can be recursively searched to eliminate candidate locations that do not match the spatial query specification. 
+The \textit{inverted index} maps each object class to the set of locations that contain objects of that type, enabling membership queries, which prune the search space for downstream spatial searching. 
+The \textit{location-object structure} treats the coordinates of the \textit{location} as the division point on the north-south and west-east axes and maps the objects for each location to the corresponding quadrant they lie in with respect to the location.
+The \textit{object-object concept map} (for each location) encodes the implicit directional relationships between the objects at that location using sparse matrices that can be recursively searched to eliminate candidate locations that do not match the spatial query specification. 
 
 \textbf{Search.}
-The Search subsystem of \emph{GESTALT} enables the user to identify locations of interest based on partial knowledge about the collection and geospatial arrangement of objects at that location. 
+The Search subsystem of \emph{GESTALT} enables the user to identify locations of interest based on partial knowledge about the existence and geospatial arrangement of objects at that location. 
 The search process is designed for the way humans naturally conceptualize and describe locations and directions - by drawing a map.
 Queries can be issued using a pictorial specification, relating objects through relative cardinal relations (like Northwest, etc.) or cardinality-invariant relations (when the user does not recall any cardinal information).
-The Search subsystem supports fuzzy searching to return inexact matches when query terms are too narrowly defined and ranking that reflects the uncertainty in any given object's identification, tagging, and assignment to a location.
+The Search subsystem supports fuzzy searching to return inexact matches when query terms are too narrow and ranking that reflects the uncertainty in an object's identification, tagging, and assignment to a location.
 
 
 %\subsection{Summary of Architecture}
