@@ -48,30 +48,30 @@ Note that Swan Valley has additional files in the Input Directory to reflect the
 ## Code (Replication)
 The code is hosted on the main [GESTALT Repository](https://github.com/osullik/GESTALT). To replicate the experiments, assuming you have already cloned this repository into a directory called `GEOSEARCH23' and are in that directory. 
 
-  git clone https://github.com/osullik/GESTALT.git
+      git clone https://github.com/osullik/GESTALT.git
 
 Replace the GESTALT data file with the GEOSEARCH data: 
 
-  cp GESTALT_GEOSEARCH/data GESTALT/data
+      cp GESTALT_GEOSEARCH/data GESTALT/data
 
 Change into the GESTALT directory
 
-  cd GESTALT
+      cd GESTALT
 
 Create and activate the virtual environment 
 
-  python -m venv gestalt_env
-  source gestalt_env/bin.activate
-  pip install -r requirements.txt
+      python -m venv gestalt_env
+      source gestalt_env/bin.activate
+      pip install -r requirements.txt
 
 Change into the scripts directory: 
 
-  cd scripts
+      cd scripts
 
 run the experiment scripts
 
-  zsh 99_experiments.sh
-  zsh 99c_DC_experiments.sh
-  zsh 99d_SV_experiments.sh
+      zsh 99_experiments.sh
+      zsh 99c_DC_experiments.sh
+      zsh 99d_SV_experiments.sh
 
 TODO: Add in details for generating experiment results
