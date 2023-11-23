@@ -1,6 +1,16 @@
 # GESTALT
 This repository holds the paper, data and instructions for how to replicate the results presented at the [2ND ACM SIGSPATIAL INTERNATIONAL WORKSHOP ON SEARCHING AND MINING LARGE COLLECTIONS OF GEOSPATIAL DATA](https://geosearch-workshop.github.io/geosearch2023/#Program)
 
+If you use this work, please include the following citation: 
+
+    @inproceedings{Osullivan2023,
+      author          = {O'Sullivan, Kent and Schneider, Nicole R and Rasheed, Aleeza and Samet, Hanan},
+      booktitle       = {GeoSearch'23: Proceedings of the 2nd ACM SIGSPATIAL International Workshop on Searching and Mining Large Collections of Geospatial Data},
+      editor          = {Hao, Li and Cavallaro, Gabriele and Heras, Dora Blanco and Lunga, Dalton and Werner, Martin and Z\"{u}fle, Andreas},
+      title           = {GESTALT: Geospatially Augmented Search with Terrain Augmented Location Targeting},
+      year            = {2023}    
+      }
+
 ## Paper
 The published PDF, LaTeX source and key auxiliary files are located in the [papers directory](https://github.com/osullik/GESTALT_GEOSEARCH/tree/main/paper). 
 
