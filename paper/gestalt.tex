@@ -1,7 +1,5 @@
-% This must be in the first 5 lines to tell arXiv to use pdfLaTeX, which is strongly recommended.
 \pdfoutput=1
 
-%\documentclass[sigconf,authordraft]{acmart}
 \documentclass[sigconf]{style/acmart}
 
 
@@ -27,77 +25,41 @@
 
 \begin{document}
 
-% % % % % % % % % % % % % % % % % % % %
-% User-defined packages, commands etc %
-% % % % % % % % % % % % % % % % % % % %
 
-%\renewcommand{\shortauthors}{O'Sullivan}
 
 \graphicspath{ {figures/}{auto_commit_fig/}{auto_fig/} }
 
-% Macro to include a latex file in the ./Sections/ directory
 \newcommand{\latexfile}[1]{\input{sections/#1}}
 
-\newcommand{\pinaforecomment}[4]{\colorbox{#1}{\textcolor{#4}{\parbox{.8\linewidth}{#2: #3}}}}
-\newcommand{\osullikomment}[1]{\pinaforecomment{green}{Kent}{#1}{black}}
-\newcommand{\nrscomment}[1]{\pinaforecomment{violet}{Nicole}{#1}{white}}
-
-\newcommand\blankpage{%
-    \null
-    \thispagestyle{empty}%
-    \addtocounter{page}{-1}%
-    \newpage}
-
-% % % % % % % % % % % % % % % % % % % %
-% Document preliminaries              %
-% % % % % % % % % % % % % % % % % % % %
+\newcommand\blankpage{    \null
+    \thispagestyle{empty}    \addtocounter{page}{-1}    \newpage}
 
 
-\title{GESTALT: Geospatially Enhanced Search with Terrain Augmented Location Targeting}%Augmenting geospatial search with micro-terrain detail\\}
 
+\title{GESTALT: Geospatially Enhanced Search with Terrain Augmented Location Targeting}
 \author{Kent O'Sullivan{$^\dagger$}}
 \email{osullik@umd.edu}
-\affiliation{%
-  \institution{University of Maryland}
-  %\streetaddress{P.O. Box 1212}
-  %\city{Dublin}
-  %\state{Ohio}
-  \country{USA}
-  %\postcode{43017-6221}
-}
+\affiliation{  \institution{University of Maryland}
+        \country{USA}
+  }
 
 \author{Nicole R. Schneider$^\dagger$}
 \email{nsch@umd.edu}
-\affiliation{%
-  \institution{University of Maryland}
-  %\streetaddress{P.O. Box 1212}
-  %\city{Dublin}
-  %\state{Ohio}
-  \country{USA}
-  %\postcode{43017-6221}
-}
+\affiliation{  \institution{University of Maryland}
+        \country{USA}
+  }
 
 \author{Aleeza Rasheed}
 \email{aleeza.z.rasheed@gmail.com}
-\affiliation{%
-  \institution{National Cathedral School}
-  %\streetaddress{P.O. Box 1212}
-  %\city{Dublin}
-  %\state{Ohio}
-  \country{USA}
-  %\postcode{43017-6221}
-}
+\affiliation{  \institution{National Cathedral School}
+        \country{USA}
+  }
 
 \author{Hanan Samet}
 \email{hjs@cs.umd.edu}
-\affiliation{%
-  \institution{University of Maryland}
-  %\streetaddress{P.O. Box 1212}
-  %\city{Dublin}
-  %\state{Ohio}
-  \country{USA}
-  %\postcode{43017-6221}
-}
+\affiliation{  \institution{University of Maryland}
+        \country{USA}
+  }
 
 
 
@@ -109,20 +71,12 @@
 $\dagger$ Equal contribution by the authors.
 
 
-% % % % % % % % % % % % % % % % % % % %
-% Document Content                    %
-% % % % % % % % % % % % % % % % % % % %
 
 \latexfile{10_Introduction.tex}
-%\latexfile{20_Problem.tex}
 \latexfile{20_Architecture.tex}
-%\latexfile{40_Implementation.tex}
 \latexfile{30_Data_Acquisition.tex}
 \latexfile{40_Ownership_Assignment.tex}
 \latexfile{50_Search.tex}
-%\latexfile{60_Results.tex}
-%\latexfile{60_Search.tex}
-%\latexfile{50_Results.tex}
 \latexfile{70_Related.tex}
 \latexfile{80_Conclusion.tex}
 
@@ -134,10 +88,7 @@ This work was sponsored in part by the \grantsponsor{1}{NSF}{} under Grants \gra
 \bibliographystyle{style/ACM-Reference-Format}
 \bibliography{gestalt} \label{bibliography}
 
-%\blankpage
-%\blankpage
 
-%\latexfile{99_Appendices.tex}
 
 
 \end{document}
